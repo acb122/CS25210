@@ -27,6 +27,7 @@ PandaLander.Game.prototype = {
         startH = this.world.width - 50;
         startL = this.world.height - 170;
 
+
         //  We're going to be using physics, so enable the Arcade Physics system
         this.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -107,12 +108,18 @@ PandaLander.Game.prototype = {
 
         //  The score
         scoreText = this.add.text(this.world.width - 160, 16, 'score: 0', {fontSize: '32px', fill: '#000'});
-        livesText = this.add.text(16,16, 'lives: 3', {fontSize: '32px', fill: '#000'});
+        livesText = this.add.text(16,16, 'lives:', {fontSize: '32px', fill: '#000'});
+        heart1 = this.add.sprite(100,15,'heart1');
+        heart2 = this.add.sprite(130,15,'heart1');
+        heart3 = this.add.sprite(160,15,'heart1');
 
+        this.input.onDown.add(moveShip, this);
         //  Our controls.
         cursors = this.input.keyboard.createCursorKeys();
         this.timer.start();
     },
+
+
 
 
     quitGame: function (pointer) {
@@ -122,8 +129,7 @@ PandaLander.Game.prototype = {
 
 
     update: function () {
-
-
+    var temp=true;
 
         //  Collide the player and the stars with the platforms
         // this.physics.arcade.collide(player, platforms);
@@ -135,6 +141,8 @@ PandaLander.Game.prototype = {
 
         //  Reset the players velocity (movement)
         //player.body.velocity.x = 0;
+
+
 
         if (cursors.left.isDown && cursors.up.isDown) {
             //  Move to the left
@@ -178,6 +186,30 @@ PandaLander.Game.prototype = {
 
 
     }}
+
+ function moveShip(pointer){
+
+     pointer.x -=85;
+     pointer.y -=75;
+
+     var radians = this.physics.arcade.moveToPointer(player, 100, pointer, 1000);
+
+
+     if(radians < -2.25 ) {
+         player.loadTexture('r_ship');
+     }
+
+     else if ( radians<-1){
+        player.loadTexture('up_ship');
+    }
+
+     else if(radians <1.5){
+         player.loadTexture('l_ship');
+     }
+     else if(radians < 5 ){
+        player.loadTexture('r_ship');
+    }
+}
     function collectStar(player, star)
 {
 
@@ -226,12 +258,21 @@ function resetPlayer(player) {
     if (lives > 0) {
         player.body.x = startH;
         player.body.y = startL;
-        livesText.text = 'Lives: ' + lives;
+        livesText.text = 'Lives: ' ;
+
         lives--;
+        if(lives==1){
+            heart3.kill();
+
+        }
+        else  if(lives==0){
+            heart2.kill();
+
+        }
     }
     else {
         player.kill();
-
+        this.state.start('GameOver');
         //this over here
     }
 

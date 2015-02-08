@@ -13,6 +13,7 @@ PandaLander.Preloader.prototype = {
 		this.titleText = this.add.image(this.world.centerX, this.world.centerY-220, 'titleimage');
 		this.titleText.anchor.setTo(0.5, 0.5);
         this.load.image('titlescreen', 'images/TitleBG.png');
+        this.load.image('gamescreen', 'images/gameover.png');
         this.load.image('sky', 'images/sky1.png');
         this.load.image('ground', 'images/platform.png');
         this.load.image('spike', 'images/spike.png');
@@ -24,6 +25,9 @@ PandaLander.Preloader.prototype = {
         this.load.image('l_up_ship', 'images/4.png');
         this.load.image('r_ship', 'images/5.png');
         this.load.image('r_up_ship', 'images/6.png');
+        this.load.image('heart1', 'images/heart.png');
+        this.load.image('heart2', 'images/heart.png');
+        this.load.image('heart3', 'images/heart.png');
 	},
 
 	create: function () {
